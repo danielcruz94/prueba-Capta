@@ -10,7 +10,7 @@ const getHolidays = async (): Promise<string[]> => {
 };
 
 const isWorkingDay = (date: DateTime, holidays: string[]): boolean => {
-  const isWeekend = date.weekday === 6 || date.weekday === 7; // sábado o domingo
+  const isWeekend = date.weekday === 6 || date.weekday === 7; 
   const isHoliday = holidays.includes(date.toISODate()!);
   return !isWeekend && !isHoliday;
 };

@@ -9,7 +9,7 @@ export const calculateController = async (
   try {
     const { days, hours, date } = req.query;
 
-    // Validación estricta
+
     const daysNum = days !== undefined ? Number(days) : 0;
     const hoursNum = hours !== undefined ? Number(hours) : 0;
 
