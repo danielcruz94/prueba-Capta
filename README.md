@@ -39,6 +39,8 @@ La API permite calcular la fecha resultante sumando días hábiles a una fecha e
 ```http
 GET http://localhost:3000/api/calculate?days=1&date=2025-09-26T17:30:00.000Z
 
+
+Respuesta API:
 {
   "date": "2025-09-29T17:00:00.000Z"
 }
