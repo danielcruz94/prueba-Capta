@@ -3,20 +3,18 @@ import { DateTime } from "luxon";
 import type { BusinessDateResult } from "../types.js";
 const HOLIDAYS_URL = "https://content.capta.co/Recruitment/WorkingDays.json";
 
-// Obtener festivos de Colombia
+
 const getHolidays = async (): Promise<string[]> => {
   const response = await axios.get<string[]>(HOLIDAYS_URL);
   return response.data;
 };
 
-// Verificar si es día hábil
 const isWorkingDay = (date: DateTime, holidays: string[]): boolean => {
   const isWeekend = date.weekday === 6 || date.weekday === 7; // sábado o domingo
   const isHoliday = holidays.includes(date.toISODate()!);
   return !isWeekend && !isHoliday;
 };
 
-// Buscar siguiente día hábil a las 8:00 a.m.
 const nextWorkingDay = (date: DateTime, holidays: string[]): DateTime => {
   let current = date.plus({ days: 1 }).startOf("day").set({ hour: 8 });
   while (!isWorkingDay(current, holidays)) {
@@ -25,7 +23,7 @@ const nextWorkingDay = (date: DateTime, holidays: string[]): DateTime => {
   return current;
 };
 
-// Ajustar fecha hacia atrás al último día hábil válido
+
 const previousWorkingDate = (date: DateTime, holidays: string[]): DateTime => {
   let current = date;
 
@@ -46,7 +44,7 @@ const previousWorkingDate = (date: DateTime, holidays: string[]): DateTime => {
   return current;
 };
 
-// Cálculo principal
+
 export const calculateBusinessDate = async (
   days: number,
   hours: number,
@@ -58,7 +56,7 @@ export const calculateBusinessDate = async (
     ? DateTime.fromISO(baseDate, { zone: "utc" }).setZone("America/Bogota")
     : DateTime.now().setZone("America/Bogota");
 
-  // Ajustar si la fecha inicial está fuera del horario laboral o no es hábil
+
   if (
     !isWorkingDay(current, holidays) ||
     current.hour < 8 ||
@@ -69,7 +67,7 @@ export const calculateBusinessDate = async (
     current = previousWorkingDate(current, holidays);
   }
 
-  // Agregar días hábiles completos
+
   for (let i = 0; i < days; i++) {
     current = nextWorkingDay(current, holidays).set({
       hour: current.hour,
@@ -77,7 +75,7 @@ export const calculateBusinessDate = async (
     });
   }
 
-  // Agregar horas hábiles
+ 
   let hoursToAdd = hours;
   while (hoursToAdd > 0) {
     let remainingToday =
@@ -88,7 +86,7 @@ export const calculateBusinessDate = async (
       remainingToday = 9;
     }
 
-    // Si cruzamos el almuerzo
+
     if (
       (current.hour < 12 && current.hour + hoursToAdd > 12) ||
       (current.hour === 11 && current.minute > 0 && current.hour + hoursToAdd >= 12)
@@ -100,7 +98,7 @@ export const calculateBusinessDate = async (
       continue;
     }
 
-    // Si estamos en almuerzo
+
     if (current.hour >= 12 && current.hour < 13) {
       current = current.set({ hour: 13, minute: 0 });
       remainingToday = 17 - 13;
