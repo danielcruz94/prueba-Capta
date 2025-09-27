@@ -1,0 +1,30 @@
+# Dependencias
+/node_modules
+
+# Compilados de TypeScript
+/dist
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# VSCode
+.vscode/
+
+# Coverage (si usas Jest u otras pruebas)
+coverage/
+
+# Cache de builds
+.cache/
